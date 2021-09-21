@@ -1,0 +1,23 @@
+﻿@if (Context.User.Identity.IsAuthenticated)
+{
+    <ul class="navbar-nav">
+        <li class="m-2">Hello, @Context.User.Identity.Name</li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Index">Редактировать</a></li>
+        <li class="nav-item">
+            <form method="post" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action()">
+                <input class="btn btn-danger" type="submit" value="Выход"/>
+            </form>
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action()">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+        </li>
+    </ul>
+}

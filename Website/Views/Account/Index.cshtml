@@ -1,0 +1,36 @@
+﻿@model Website.ViewModels.AccountViewModel
+
+<h2>Аккаунт</h2>
+
+<p>
+    <button class="btn btn-primary m-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">
+        Изменить логин
+    </button>
+    <button class="btn btn-primary m-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePass" aria-expanded="false" aria-controls="collapseExample">
+        Изменить пароль
+    </button>
+</p>
+<div class="row">
+    <div class="col">
+        <div class="collapse" id="collapseEmail">
+            <div class="card card-body">
+                <form method="post" asp-controller="Account" asp-action="Index">
+                    <input asp-for="Email" class="form-control mb-2" type="text" placeholder="Введите новый email">
+                    <button type="submit" class="btn btn-outline-success">Изменить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="collapse" id="collapsePass">
+            <div class="card card-body">
+                <form method="post" asp-controller="Account" asp-action="Index">
+                    <input asp-for="CurrentPass" class="form-control mb-2" type="password" placeholder="Введите пароль">
+                    <input asp-for="Pass" class="form-control mb-2" type="password" placeholder="Введите новый пароль">
+                    <input asp-for="SecondPass" class="form-control mb-2" type="password" placeholder="Повторите пароль">
+                    <button type="submit" class="btn btn-outline-success">Изменить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

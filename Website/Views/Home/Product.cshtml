@@ -1,0 +1,90 @@
+﻿@model Website.ViewModels.ProductViewModel
+@{
+    ViewData["Title"] = "Product Page";
+}
+<h1>Список телефонов</h1>
+<form method="get">
+    <div class="form-inline">
+        <label>Название: </label>
+        <input name="name" value="@Model.FilterViewModel.SelectedName" class="form-control"/>
+
+        <label>Компания: </label>
+        <select name="company" asp-items="Model.FilterViewModel.Companies" class="form-control"></select>
+
+        <input type="submit" value="Фильтр" class="btn btn-outline-dark mt-3"/>
+    </div>
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            <a asp-action="Product" asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedName)"
+               asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
+               asp-route-page="@(Model.PageViewModel.PageNumber)">
+                Имя
+            </a>
+        </th>
+        <th>
+            <a asp-action="Product" asp-route-sortOrder="@(Model.SortViewModel.PriceSort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedName)"
+               asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
+               asp-route-page="@(Model.PageViewModel.PageNumber)">
+                Цена
+            </a>
+        </th>
+        <th>
+            <a asp-action="Product" asp-route-sortOrder="@(Model.SortViewModel.CompanySort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedName)"
+               asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
+               asp-route-page="@(Model.PageViewModel.PageNumber)">
+                Компания
+            </a>
+        </th>
+        @if (Context.User.Identity.IsAuthenticated)
+        {
+            <th></th>
+        }
+    </tr>
+    @foreach (Phone p in Model.Phones)
+    {
+        <tr>
+            <td>@p.Name</td><td>@p.Price</td><td>@p.Manufacturer.Name</td>
+            @if (Context.User.Identity.IsAuthenticated)
+            {
+                <td>
+                    <form method="post" asp-controller="Basket" asp-action="AddItem"
+                          asp-route-returnUrl="@Url.Action()"
+                          asp-route-phoneId="@p.Id">
+                        <button type="submit" class="btn btn-success">Добавить в корзину</button>
+                    </form>
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Product"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+       class="btn  btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Product"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-company="@(Model.FilterViewModel.SelectedCompany)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+       class="btn btn-outline-dark">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
